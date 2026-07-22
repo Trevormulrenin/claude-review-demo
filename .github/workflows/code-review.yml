@@ -2,11 +2,9 @@ name: Automated Code Review
 on:
   pull_request:
     types: [opened, synchronize]
-
 permissions:
   contents: read
   pull-requests: write
-
 jobs:
   review:
     runs-on: ubuntu-latest
@@ -14,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
             Review this pull request against the standards in CLAUDE.md.
             Post a single review comment grouping findings by severity

@@ -1,1 +1,3 @@
 # claude-review-demo
+
+This repository contains a small Google Cloud Functions service used to demo automated AI code review. The HTTP function `process_upload` in `main.py` accepts a JSON request with `bucket` and `file` keys, downloads the referenced blob from Google Cloud Storage, parses it as JSON, and returns the sum of the `amount` field across its `records`. It is intentionally written with realistic rough edges — missing input validation, no error handling around the download and parse, unguarded dictionary access, and bare `print` logging — so that an automated reviewer has meaningful issues to catch.
