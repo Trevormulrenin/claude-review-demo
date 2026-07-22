@@ -5,8 +5,10 @@ from google.cloud import storage
 
 def process_upload(request):
     """HTTP Cloud Function that processes an uploaded file record."""
-    data = request.get_json()
-    bucket_name = data['bucket']              # no validation
+    data = request.get_json(silent=True)
+    if not data or 'bucket' not in data or 'file' not in data:
+        return {'error': 'Request body must include "bucket" and "file"'}, 400
+    bucket_name = data['bucket']
     file_name = data['file']
     client = storage.Client()
     bucket = client.bucket(bucket_name)
