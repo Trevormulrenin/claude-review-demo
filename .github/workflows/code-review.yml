@@ -14,6 +14,7 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
           prompt: |
             Review this pull request against the standards in CLAUDE.md.
             Post a single review comment grouping findings by severity
@@ -21,4 +22,4 @@ jobs:
             a concrete fix for each. Be concise.
           claude_args: |
             --model claude-sonnet-5
-            --max-turns 5
+            --max-turns 20
