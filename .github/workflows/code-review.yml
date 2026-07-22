@@ -12,14 +12,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: anthropics/claude-code-action@v1
+        env:
+          GH_TOKEN: ${{ github.token }}
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           show_full_output: true
           prompt: |
-            Review this pull request against the standards in CLAUDE.md.
-            Post a single review comment grouping findings by severity
-            (Blocking / Should-fix / Nit). Cite file and line, and suggest
-            a concrete fix for each. Be concise.
+            Review pull request #${{ github.event.pull_request.number }} in the
+            repository ${{ github.repository }} against the standards in CLAUDE.md.
+            Run `gh pr diff ${{ github.event.pull_request.number }}` to see the
+            changes, and read any files you need for context.
+            Group findings by severity (Blocking / Should-fix / Nit). Cite the
+            file and line for each, and suggest a concrete fix. Be concise.
+            Post your review as a single PR comment by running:
+            gh pr comment ${{ github.event.pull_request.number }} --body "YOUR REVIEW HERE"
           claude_args: |
             --model claude-sonnet-5
             --max-turns 20
+            --allowedTools "Bash(gh:*),Bash(git:*)"
